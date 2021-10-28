@@ -1,4 +1,6 @@
 # README
+The Air BNB for your DOG.
+Reserve Dogsiters to make strols for you.
 
 This README would normally document whatever steps are necessary to get the
 application up and running.
