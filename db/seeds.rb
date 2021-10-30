@@ -8,43 +8,58 @@
 
 require 'faker'
 
+# Erase database
 Stroll.destroy_all
 Dog.destroy_all
 Sitter.destroy_all
 City.destroy_all
 Pack.destroy_all
 
-
+# Create cities
+cities = Array.new
 bdx = City.create(name: 'Bordeaux')
 nan = City.create(name: 'Nantes')
 par = City.create(name: 'Paris')
+cities = [bdx, nan, par]
 
-10.times do
+# Create sitters
+30.times do
   sitter = Sitter.create(
     name: Faker::Name.first_name,
-    city: [bdx, nan, par][rand(0..2)]
+    city: cities[rand(0..cities.length-1)]
   )
   puts sitter
 end
 
-pack1 = Pack.create
-pack2 = Pack.create
-pack3 = Pack.create
-pack4 = Pack.create
+# Create packs od dogs
+packs = Array.new
+20.times do
+  pack = Pack.create
+  packs << pack
+end
 
-50.times do
+# Create dogs
+200.times do
   dog = Dog.create(
     name: 'DOGGY ' + Faker::Name.first_name,
-    city: [bdx, nan, par][rand(0..2)],
-    pack: [pack1, pack2, pack3, pack4][rand(0..3)]
+    city: cities[rand(0..cities.length-1)],
+    pack: packs[rand(0..packs.length-1)]
   )
   puts dog
 end
 
+
+
 100.times do
+  random_city = cities[rand(0..cities.length-1)]
+  sitters_from_random_city = Sitter.where(city: random_city)
+  random_sitter = sitters_from_random_city[rand(0..sitters_from_random_city.length-1)]
   stroll = Stroll.create(
-    sitter: Sitter.all[rand(0..9)],
-    pack: [pack1, pack2, pack3, pack4][rand(0..3)]
+    city: random_city,
+    sitter: random_sitter,
+    pack: packs[rand(0..packs.length-1)]
   )
   puts stroll
 end
+
+
